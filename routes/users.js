@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 // Load User model
 const User = require('../models/User');
-const { forwardAuthenticated } = require('../config/auth');
+const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
@@ -18,15 +19,15 @@ router.post('/register', (req, res) => {
   let errors = [];
 
   if (!name || !email || !password || !password2) {
-    errors.push({ msg: 'Please enter all fields' });
+    errors.push({ msg: 'Veuillez saisir tous les champs' });
   }
 
   if (password != password2) {
-    errors.push({ msg: 'Passwords do not match' });
+    errors.push({ msg: 'Les mots de passe ne correspondent pas' });
   }
 
   if (password.length < 6) {
-    errors.push({ msg: 'Password must be at least 6 characters' });
+    errors.push({ msg: 'Le mot de passe doit être au moins de 6 caractères' });
   }
 
   if (errors.length > 0) {
@@ -40,7 +41,7 @@ router.post('/register', (req, res) => {
   } else {
     User.findOne({ email: email }).then(user => {
       if (user) {
-        errors.push({ msg: 'Email already exists' });
+        errors.push({ msg: 'L\'email existe déjà' });
         res.render('register', {
           errors,
           name,
@@ -64,7 +65,7 @@ router.post('/register', (req, res) => {
               .then(user => {
                 req.flash(
                   'success_msg',
-                  'You are now registered and can log in'
+                  'Vous êtes maintenant inscrit et vous pouvez vous connecter'
                 );
                 res.redirect('/users/login');
               })
@@ -79,7 +80,7 @@ router.post('/register', (req, res) => {
 // Login
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', {
-    successRedirect: '/dashboard',
+    successRedirect: '/users/dashboard',
     failureRedirect: '/users/login',
     failureFlash: true
   })(req, res, next);
@@ -88,8 +89,38 @@ router.post('/login', (req, res, next) => {
 // Logout
 router.get('/logout', (req, res) => {
   req.logout();
-  req.flash('success_msg', 'You are logged out');
+  req.flash('success_msg', 'Vous êtes déconnecté');
   res.redirect('/users/login');
 });
+
+// Dashboard User
+router.get('/dashboard', ensureAuthenticated, (req, res) =>
+  res.render('user/dashboard', {
+    user: req.user,
+    layout: 'user_layout'
+  })
+);
+
+// Products list
+router.get('/products', ensureAuthenticated, (req, res) =>
+  res.render('user/products', {
+    user: req.user,
+    layout: 'user_layout'
+  })
+);
+
+
+// User Infos
+router.get('/infos', ensureAuthenticated, (req, res) =>
+  res.render('user/user_infos', {
+    user: req.user,
+    layout: 'user_layout'
+  })
+);
+
+
+
+
+
 
 module.exports = router;

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const { ensureAuthenticated, forwardAuthenticated } = require('./config/auth');
 
 const app = express();
 
@@ -17,12 +18,13 @@ const db = require('./config/keys').mongoURI;
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true ,useUnifiedTopology: true}
+    { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
 // EJS
+app.use("/assets", express.static("assets"));
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 
@@ -46,7 +48,7 @@ app.use(passport.session());
 app.use(flash());
 
 // Global variables
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
@@ -54,7 +56,7 @@ app.use(function(req, res, next) {
 });
 
 // Routes
-app.use('/', require('./routes/index.js'));
+app.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
 app.use('/users', require('./routes/users.js'));
 
 const PORT = process.env.PORT || 5000;

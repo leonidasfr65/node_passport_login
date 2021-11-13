@@ -1,0 +1,90 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+            <a href="/users/infos" class="nav-link">
+                <div class="nav-profile-image">
+                    <img src="../assets/images/faces/face1.jpg" alt="profile" />
+                    <span class="login-status online"></span>
+                    <!--change to offline or busy as needed-->
+                </div>
+                <div class="nav-profile-text d-flex flex-column">
+                    <span class="font-weight-bold mb-2"><%= user.name %></span>
+                    <!-- <span class="text-secondary text-small">Project Manager</span> -->
+                </div>
+                <i class="
+                        mdi mdi-bookmark-check
+                        text-success
+                        nav-profile-badge
+                    "></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/users/dashboard">
+                <span class="menu-title">Tableau de bord</span>
+                <i class="mdi mdi-home menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <span class="menu-title">Produits</span>
+                <i class="menu-arrow"></i>
+                <i class="mdi mdi-sitemap menu-icon"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/ui-features/buttons.html">Produits numériques</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/ui-features/typography.html">Produits physiques</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages/icons/mdi.html">
+                <span class="menu-title">Ventes</span>
+                <i class="mdi bi-cart4 menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages/forms/basic_elements.html">
+                <span class="menu-title">Contacts</span>
+                <i class="mdi bi-person-lines-fill menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages/charts/chartjs.html">
+                <span class="menu-title">Marketing</span>
+                <i class="mdi mdi-chart-bar menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="pages/tables/basic-table.html">
+                <span class="menu-title">Affiliation</span>
+                <i class="mdi bi-people menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item sidebar-actions">
+            <span class="nav-link">
+                <div class="border-bottom">
+                    <h6 class="font-weight-normal mb-3">Actions rapides</h6>
+                </div>
+                <div class="template-demo">
+                    <button type="button" class="btn btn-dark btn-lg btn-block">Ajouter produit</button>
+                    <button type="button" class="btn btn-dark btn-lg btn-block">Voir boutique</button>
+
+                </div>
+                <div class="mt-4">
+                    <div class="border-bottom">
+                        <p class="text-secondary">Abonnement</p>
+                    </div>
+                    <ul class="gradient-bullet-list mt-4">
+                        <li>Gratuit - 0€/Mois</li>
+                        <li>Pro - 99€/Mois</li>
+                    </ul>
+                </div>
+            </span>
+        </li>
+    </ul>
+</nav>

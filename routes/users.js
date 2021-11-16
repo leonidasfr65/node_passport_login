@@ -2,10 +2,17 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+// const md5 = require('md5');
+
 // Load User model
 const User = require('../models/User');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const mysql = require('mysql');
 
+// Config Sequelize MYSQL
+// Config MYSQL
+const config = require('../config/db.js');
+const connection = mysql.createConnection(config.databaseOptions);
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
@@ -63,6 +70,18 @@ router.post('/register', (req, res) => {
             newUser
               .save()
               .then(user => {
+                mysql.connect(function (err) {
+                  if (err) throw err;
+                  console.log("Connecté à la base de données MySQL!");
+                  var sql = 'INSERT INTO users (name, password, email) VALUES ? ';
+                  let values = [
+                    [newUser.name, newUser.password, newUser.email]
+                  ];
+                  mysql.query(sql, [values], function (err, result) {
+                    if (err) throw err;
+                    console.log("Base de données créée !");
+                  });
+                });
                 req.flash(
                   'success_msg',
                   'Vous êtes maintenant inscrit et vous pouvez vous connecter'
@@ -70,8 +89,8 @@ router.post('/register', (req, res) => {
                 res.redirect('/users/login');
               })
               .catch(err => console.log(err));
-          });
-        });
+          }); /// End Bcrypt Hash
+        }); // End Bcrypt
       }
     });
   }
@@ -117,10 +136,5 @@ router.get('/infos', ensureAuthenticated, (req, res) =>
     layout: 'user_layout'
   })
 );
-
-
-
-
-
 
 module.exports = router;

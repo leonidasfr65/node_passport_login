@@ -5,8 +5,13 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
 const { ensureAuthenticated, forwardAuthenticated } = require('./config/auth');
-
 const app = express();
+const mysql = require('mysql');
+const PORT = process.env.PORT || 3000;
+
+// Config MYSQL
+// const config = require('./config/db.js');
+// const connection = mysql.createConnection(config.databaseOptions);
 
 // Passport Config
 require('./config/passport')(passport);
@@ -58,7 +63,5 @@ app.use(function (req, res, next) {
 // Routes
 app.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
 app.use('/users', require('./routes/users.js'));
-
-const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log(`Server running on  ${PORT}`));

@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 // Config MYSQL
 const dbMysql = mysql.createConnection({
-  host: "152.228.175.158",
+  host: "152.228.175.158:3306",
   database: 'dreamagency_elevatedb',
   user: "dreamagency_elevatedb",
   password: "XThIeOMZ9Wo1"

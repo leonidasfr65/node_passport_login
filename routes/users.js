@@ -9,10 +9,13 @@ const User = require('../models/User');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const mysql = require('mysql');
 
-// Config Sequelize MYSQL
 // Config MYSQL
-const config = require('../config/db.js');
-const connection = mysql.createConnection(config.databaseOptions);
+const db = mysql.createConnection({
+  host: "152.228.175.158",
+  database: 'dreamagency_elevatedb',
+  user: "dreamagency_elevatedb",
+  password: "XThIeOMZ9Wo1"
+});
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
@@ -70,14 +73,14 @@ router.post('/register', (req, res) => {
             newUser
               .save()
               .then(user => {
-                mysql.connect(function (err) {
+                db.connect(function (err) {
                   if (err) throw err;
                   console.log("Connecté à la base de données MySQL!");
                   var sql = 'INSERT INTO users (name, password, email) VALUES ? ';
                   let values = [
                     [newUser.name, newUser.password, newUser.email]
                   ];
-                  mysql.query(sql, [values], function (err, result) {
+                  db.query(sql, [values], function (err, result) {
                     if (err) throw err;
                     console.log("Base de données créée !");
                   });

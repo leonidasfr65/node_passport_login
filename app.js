@@ -10,8 +10,12 @@ const mysql = require('mysql');
 const PORT = process.env.PORT || 3000;
 
 // Config MYSQL
-// const config = require('./config/db.js');
-// const connection = mysql.createConnection(config.databaseOptions);
+const db = mysql.createConnection({
+  host: "152.228.175.158",
+  database: 'dreamagency_elevatedb',
+  user: "dreamagency_elevatedb",
+  password: "XThIeOMZ9Wo1"
+});
 
 // Passport Config
 require('./config/passport')(passport);

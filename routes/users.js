@@ -10,7 +10,7 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const mysql = require('mysql');
 
 // Config MYSQL
-const db = mysql.createConnection({
+const dbMysql = mysql.createConnection({
   host: "152.228.175.158",
   database: 'dreamagency_elevatedb',
   user: "dreamagency_elevatedb",
@@ -73,14 +73,14 @@ router.post('/register', (req, res) => {
             newUser
               .save()
               .then(user => {
-                db.connect(function (err) {
+                dbMysql.connect(function (err) {
                   if (err) throw err;
                   console.log("Connecté à la base de données MySQL!");
                   var sql = 'INSERT INTO users (name, password, email) VALUES ? ';
                   let values = [
                     [newUser.name, newUser.password, newUser.email]
                   ];
-                  db.query(sql, [values], function (err, result) {
+                  dbMysql.query(sql, [values], function (err, result) {
                     if (err) throw err;
                     console.log("Base de données créée !");
                   });

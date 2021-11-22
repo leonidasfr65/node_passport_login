@@ -10,7 +10,7 @@ const mysql = require('mysql');
 const PORT = process.env.PORT || 3000;
 
 // Config MYSQL
-const db = mysql.createConnection({
+const dbMysql = mysql.createConnection({
   host: "152.228.175.158",
   database: 'dreamagency_elevatedb',
   user: "dreamagency_elevatedb",
